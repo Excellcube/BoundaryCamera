@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RadiusOne.BoundaryCamera
+namespace Excellcube.BoundaryCamera
 {
     [ExecuteInEditMode]
     public class Boundary : MonoBehaviour

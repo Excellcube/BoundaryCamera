@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RadiusOne.BoundaryCamera
+namespace Excellcube.BoundaryCamera
 {
+    [ExecuteInEditMode]
     public class BoundaryCamera : MonoBehaviour
     {
         private enum Corner {
@@ -17,27 +18,14 @@ namespace RadiusOne.BoundaryCamera
         private Vector3 m_PrevPosition;
         private Quaternion m_PrevRotation;
 
-        [SerializeField]
-        private float m_Sensivitity = 0.01f;
-
-        [Header("이동 가능 방향")]
-        [SerializeField]
-        private bool m_AxisX = true;
-        [SerializeField]
-        private bool m_AxisZ = true;
 
         [Header("디버깅")]
         [SerializeField]
         private bool m_DrawDebugLine = true;
 
 
-        
         void Start()
         {
-            m_Camera = Camera.main;
-            m_PrevPosition = m_Camera.transform.position;
-            m_PrevRotation = m_Camera.transform.rotation;
-
             m_LayerMask = 1 << Boundary.layer;
         }
 
@@ -54,6 +42,19 @@ namespace RadiusOne.BoundaryCamera
         {
             if(!FindBoundary()) {
                 return;
+            }
+
+            BoundInArea();
+        }
+
+        public void BoundInArea(bool forceInBound = true) {
+            if(m_Camera == null) {
+                m_Camera = GetComponent<Camera>();
+
+                m_PrevPosition = m_Camera.transform.position;
+                m_PrevRotation = m_Camera.transform.rotation;
+
+                m_LayerMask = 1 << Boundary.layer;
             }
 
             // 카메라의 각 모서리를 Boundary의 높이에 raycasting.
@@ -73,7 +74,7 @@ namespace RadiusOne.BoundaryCamera
 
                 m_PrevPosition = m_Camera.transform.position;
                 m_PrevRotation = m_Camera.transform.rotation;
-            } else {
+            } else if(forceInBound) {
                 m_Camera.transform.position = m_PrevPosition;
                 m_Camera.transform.rotation = m_PrevRotation;
             }
@@ -92,16 +93,15 @@ namespace RadiusOne.BoundaryCamera
             Vector3 end   = m_Camera.ViewportToWorldPoint(new Vector3(coord.x, coord.y, 1));
             Vector3 direction = end - start;
 
-            if(m_DrawDebugLine) {
-                Debug.DrawRay(start, direction * 30, Color.red);
-            }
-
             if(Physics.Raycast(start, direction, out hit, Mathf.Infinity, m_LayerMask)) {
                 if(m_DrawDebugLine) {
-                    Debug.DrawRay(start, direction * hit.distance, Color.green);
+                    Debug.DrawLine(start, hit.point, Color.green);
                 }
                 return true;
             } else {
+                if(m_DrawDebugLine) {
+                    Debug.DrawRay(start, direction * 200, Color.red);
+                }
                 return false;
             }
         }
@@ -123,24 +123,6 @@ namespace RadiusOne.BoundaryCamera
                 collider.size = size;
             }
             return true;
-        }
-
-
-        /// <summary>
-        /// Screen의 터치 드래그 길이를 통해 카메라 이동.
-        /// </summary>
-        public void MoveCamera(Vector3 dragDelta) {
-            Vector3 cameraPosition = transform.position;
-            
-            if(m_AxisX) {
-                cameraPosition.x -= (dragDelta.x * m_Sensivitity);
-            }
-
-            if(m_AxisZ) {
-                cameraPosition.z -= (dragDelta.y * m_Sensivitity);
-            }
-
-            transform.position = cameraPosition;
         }
     }
 }
