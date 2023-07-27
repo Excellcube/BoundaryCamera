@@ -1,0 +1,18 @@
+{
+    "name": "RadiusOne.Module.BoundaryCamera.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:420b038740b28444a9c062c50aa4b016"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
