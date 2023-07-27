@@ -1,72 +1,30 @@
+>
+> 💡 사용 시 어려움이나 문제가 있으시면 이슈를 남겨주세요. 한 시간 안에 답변을 달도록 하겠습니다.
+>
+
 # Boundary Camera
-큰 숫자를 축약하여 화면에 표시할 때 사용하는 모듈입니다. `1,234,567,000`과 같이 큰 숫자를 한국 숫자 단위(`12억 3456만`)로 변환하거나 AA notation(`1.23B`)으로 축약 변환할 수 있습니다. 기본 자료형으로 `double`을 사용하고 있기 때문에 숫자의 정밀도는 double 타입과 같습니다. (15~17자리)
+Unity에서 카메라의 이동 범위를 제한할 때 사용할 수 있는 에셋입니다. 카메라의 화면이 `Boundary`라는 이름의 BoxCollider 내의 영역에만 보여주도록 합니다.
+
+<img width="511" src="https://user-images.githubusercontent.com/104705295/256589742-9756e41d-9a2c-4163-8ec0-8a97bfd3b5bb.gif"/>
 
 ## 설치 방법
 ### Package Manger를 이용한 설치
 1. Window > Package Manager 클릭
 1. 왼쪽 상단의 '+' 버튼 클릭 후 `Add Package from git URL` 클릭
-1. `https://github.com/Excellcube/BigNum.git` 입력 후 add 버튼 클릭
+1. `https://github.com/Excellcube/BoundaryCamera.git` 입력 후 add 버튼 클릭
 
 ## 사용 방법
-`BigNum`을 사용하는 코드에 다음과 같이 namespace를 추가합니다.
+### 카메라 설정
+* Boundary Camera 효과를 주고 싶은 카메라에 `BoundaryCamera`라는 이름의 컴포넌트를 추가합니다.
 
-```csharp
-using Excellcube
+  <img width="511" src="https://user-images.githubusercontent.com/104705295/256683024-3ff1d2be-6ba8-4dfb-827e-eb0d60a974c1.jpg"/>
 
-/* 코드 작성 */
-```
+### 카메라 렌더링 영역 설정
+* `BoundaryCamera > Prefabs > CameraBoundary.prefab`을 Scene에 추가한 뒤 원하는 크기에 맞춰 CameraBoundary 내의 BoxCollider 크기를 적당히 조절합니다.
 
-### 초기화
-```csharp
-// 숫자 할당
-BigNum num1 = 123123123;
+  <img width="511" src="https://user-images.githubusercontent.com/104705295/256683036-6ddb613a-5c38-48da-993a-61264b7334dc.jpg"/>
 
-// 문자열 할당
-BigNum num2 = "123123123";
-```
-
-### 사칙 연산
-```csharp
-// 더하기 연산
-BigNum num1 = 100000000000000;
-BigNum num2 = 20000;
-BigNum result =  num1 + num2;  // 100000000020000
-
-// 빼기 연산
-BigNum num1 = 100000000000000;
-int num2 = 20000;  // 기존 자료형 호환
-BigNum result = num1 - num2;  // 99999999980000
-
-// 곱하기 연산
-BigNum num1 = 1000000000000;
-float num2 = 200;
-BigNum result = num1 * num2;  // 200000000000000
-
-// 나누기 연산
-BigNum num1 = 2000000000000;
-double num2 = 200;
-BigNum result = num1 / num2;  // 10000000000
-```
-
-### 문자열 변환
-```csharp
-BigNum num = 12345678912345;
-string numStr = num.ToString("N0");  // "12,345,678,912,345"
-```
-
-### 축약형 변환
-```csharp
-// 영어 축약형 (aa notation)
-BigNum num = "123023456789";
-string numStr = num.ToShortForm();      // "123B"
-
-// 한글 축약형
-BigNum num = "123023456789";
-string numStr = num.ToShortForm("ko");  // "1230억 2345만"
-```
-
-### 영어 축약형 자릿수
-* AA notation 사용 시 최대 세 자리의 숫자만 표기하고 있습니다. (ex. `4321` -> `4.32K`, `54321` -> `54.3K`)
+  <img width="511" src="https://user-images.githubusercontent.com/104705295/256683037-0ce04628-ec98-462a-b7e3-347d90086916.jpg"/>
 
 ## License
 * MIT
